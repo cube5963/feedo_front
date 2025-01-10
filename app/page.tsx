@@ -11,14 +11,14 @@ export default function Home() {
         <p>最高のアンケートApp</p>
       </Box>
       <Box>
-        <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
+        <Paper elevation={3} sx={{ p: 2 }}>
           <h2>FEEDOについて</h2>
           <p>ここら辺後でバンバン書こうぜ</p>
           <p>とっとと機能作れや</p>
         </Paper>
       </Box>
       <Box sx={{ mt: 3 }}>
-        <Button>
+        <Button href="/create">
           アンケート作成ページへ
         </Button>
       </Box>
