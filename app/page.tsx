@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Container, Box, Paper, Button } from '@mui/material';
-
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -18,9 +17,11 @@ export default function Home() {
         </Paper>
       </Box>
       <Box sx={{ mt: 3 }}>
-        <Button href="/create">
-          アンケート作成ページへ
-        </Button>
+        <Link href="/create" passHref>
+          <Button variant="contained">
+            アンケート作成ページへ
+          </Button>
+        </Link>
       </Box>
     </Container>
   );
