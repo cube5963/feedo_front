@@ -1,4 +1,5 @@
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
 import {
     Box,
     Drawer,
@@ -12,13 +13,42 @@ import {
     ListItemButton,
     ListItemText,
     TextField,
-    BottomNavigation,
-    BottomNavigationAction,
+    Paper,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Button,
 } from '@mui/material';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import SendIcon from '@mui/icons-material/Send';
+import SaveIcon from '@mui/icons-material/Save';
+import ShareIcon from '@mui/icons-material/Share';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import Menu from './../_components/formaddmenu'; // Menuコンポーネント
+
+const actions = [
+    { icon: <InsertDriveFileIcon />, name: '新規の質問を追加', action: 'openMenu' },
+    { icon: <SaveIcon />, name: '保存' },
+    { icon: <SendIcon />, name: '公開' },
+    { icon: <ShareIcon />, name: '共有' },
+];
 
 const drawerWidth = 240;
 
 export default function ClippedDrawer() {
+    const [openMenu, setOpenMenu] = useState(false); // Menuを開くための状態
+
+    const handleMenuOpen = () => {
+        setOpenMenu(true);
+    };
+
+    const handleMenuClose = () => {
+        setOpenMenu(false);
+    };
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
             <CssBaseline />
@@ -78,32 +108,48 @@ export default function ClippedDrawer() {
                 }}
             >
                 <Toolbar />
-                <Box sx={{ textAlign: 'center', mt: 3 }}>
+                <Box sx={{ textAlign: 'center', mt: 3, mb: 3 }}>
                     <TextField
                         label="Title" // ここは後でformCreateSettingの時に名前設定してそれを持ってくるようにする
                         variant="standard"
                         fullWidth
                     />
                 </Box>
+                <Paper>
+                    <Typography variant="h5" component="div" sx={{ p: 2 }}>
+                        ここにコンテンツを入れる
+                    </Typography>
+                </Paper>
             </Box>
-            <BottomNavigation
-                sx={{
-                    width: `calc(100% - ${drawerWidth}px)`, // サイドバーの分を引いた幅に設定
-                    height: '10rem', // 高さを指定
-                    position: 'fixed',
-                    bottom: 0,
-                    left: `${drawerWidth}px`, // サイドバーの隣から表示する
-                    zIndex: 1400, // 高いz-indexを設定
-                    borderRadius: '12px', // 角を丸くする
-                    backgroundColor: '#fafafa', // 背景色を変更
-                    padding: '2em', // ボタンの間隔を調整
-                    boxShadow: 3, // ボタンに影をつける
-                }}
+
+            {/* SpeedDial ボタン */}
+            <SpeedDial
+                ariaLabel="SpeedDial basic example"
+                sx={{ position: 'absolute', bottom: 16, right: 16 }}
+                icon={<SpeedDialIcon />}
             >
-                <BottomNavigationAction label="あああ" icon="📥" />
-                <BottomNavigationAction label="いいい" icon="📤" />
-                <BottomNavigationAction label="ううう" icon="📜" />
-            </BottomNavigation>
+                {actions.map((action) => (
+                    <SpeedDialAction
+                        key={action.name}
+                        icon={action.icon}
+                        tooltipTitle={action.name}
+                        onClick={action.action === 'openMenu' ? handleMenuOpen : undefined} // '新規の質問を追加' の場合のみ Menu を開く
+                    />
+                ))}
+            </SpeedDial>
+
+            {/* Menu ダイアログ */}
+            <Dialog open={openMenu} onClose={handleMenuClose}>
+                <DialogTitle>新規の質問を追加</DialogTitle>
+                <DialogContent>
+                    <Menu /> {/* Menu コンポーネントをここに表示 */}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleMenuClose} color="primary">
+                        閉じる
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 }
