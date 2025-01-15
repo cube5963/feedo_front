@@ -20,20 +20,22 @@ import {
     DialogTitle,
     Button,
 } from '@mui/material';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SendIcon from '@mui/icons-material/Send';
 import SaveIcon from '@mui/icons-material/Save';
 import ShareIcon from '@mui/icons-material/Share';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import Menu from './../_components/formaddmenu'; // Menuコンポーネント
 
-const actions = [
-    { icon: <InsertDriveFileIcon />, name: '新規の質問を追加', action: 'openMenu' },
-    { icon: <SaveIcon />, name: '保存' },
-    { icon: <SendIcon />, name: '公開' },
-    { icon: <ShareIcon />, name: '共有' },
+const sidebarItems = [
+    { text: '　保存', icon: <SaveIcon /> },
+    { text: '　公開', icon: <SendIcon /> },
+    { text: '　共有', icon: <ShareIcon /> },
+    { text: '　プレビュー', icon: <RemoveRedEyeOutlinedIcon /> },
+];
+
+const otherItems = [
+    { text: '　質問を追加' },
+    { text: '　AIに聞く' },
 ];
 
 const drawerWidth = 240;
@@ -41,10 +43,12 @@ const drawerWidth = 240;
 export default function ClippedDrawer() {
     const [openMenu, setOpenMenu] = useState(false); // Menuを開くための状態
 
+    // メニューを開く関数
     const handleMenuOpen = () => {
         setOpenMenu(true);
     };
 
+    // メニューを閉じる関数
     const handleMenuClose = () => {
         setOpenMenu(false);
     };
@@ -78,20 +82,22 @@ export default function ClippedDrawer() {
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }}>
                     <List>
-                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem key={text} disablePadding>
+                        {sidebarItems.map((item, index) => (
+                            <ListItem key={item.text} disablePadding>
                                 <ListItemButton>
-                                    <ListItemText primary={text} />
+                                    {item.icon}
+                                    <ListItemText primary={item.text} />
                                 </ListItemButton>
                             </ListItem>
                         ))}
                     </List>
                     <Divider />
                     <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem key={text} disablePadding>
-                                <ListItemButton>
-                                    <ListItemText primary={text} />
+                        {otherItems.map((item, index) => (
+                            <ListItem key={item.text} disablePadding>
+                                {/* 空白文字のアイテムにはクリックイベントを設定しない */}
+                                <ListItemButton onClick={item.text.trim() !== '' ? handleMenuOpen : undefined}>
+                                    <ListItemText primary={item.text} />
                                 </ListItemButton>
                             </ListItem>
                         ))}
@@ -122,33 +128,21 @@ export default function ClippedDrawer() {
                 </Paper>
             </Box>
 
-            {/* SpeedDial ボタン */}
-            <SpeedDial
-                ariaLabel="SpeedDial basic example"
-                sx={{ position: 'absolute', bottom: 16, right: 16 }}
-                icon={<SpeedDialIcon />}
-            >
-                {actions.map((action) => (
-                    <SpeedDialAction
-                        key={action.name}
-                        icon={action.icon}
-                        tooltipTitle={action.name}
-                        onClick={action.action === 'openMenu' ? handleMenuOpen : undefined} // '新規の質問を追加' の場合のみ Menu を開く
-                    />
-                ))}
-            </SpeedDial>
-
             {/* Menu ダイアログ */}
             <Dialog open={openMenu} onClose={handleMenuClose}>
                 <DialogTitle>新規の質問を追加</DialogTitle>
                 <DialogContent>
                     <Menu /> {/* Menu コンポーネントをここに表示 */}
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{ justifyContent: 'flex-start', px: 3,py: 2 }}>
+                    <Button variant="contained" sx={{ mr: 6 }}>
+                        作成
+                    </Button>
                     <Button onClick={handleMenuClose} color="primary">
                         閉じる
                     </Button>
                 </DialogActions>
+
             </Dialog>
         </Box>
     );
