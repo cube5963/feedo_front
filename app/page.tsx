@@ -5,23 +5,18 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <Container>
-      <Box>
-        <h1>FEEDO</h1>
-        <p>最高のアンケートApp</p>
-      </Box>
-      <Box>
-        <Paper elevation={3} sx={{ p: 2 }}>
-          <h2>FEEDOについて</h2>
-          <p>ここら辺後でバンバン書こうぜ</p>
-          <p>とっとと機能作れや</p>
+      <Box sx={{ mt: 4 }}>
+        <Paper sx={{ p: 4 }}>
+          <h1>Welcome to the app!</h1>
+          <p>
+            This is a simple app that demonstrates how to use MUI with Next.js.
+          </p>
+          <Link href="/login">
+            <Button variant="contained" color="primary">
+              Login
+            </Button>
+          </Link>
         </Paper>
-      </Box>
-      <Box sx={{ mt: 3 }}>
-        <Link href="/create" passHref>
-          <Button variant="contained">
-            アンケート作成ページへ
-          </Button>
-        </Link>
       </Box>
     </Container>
   );
