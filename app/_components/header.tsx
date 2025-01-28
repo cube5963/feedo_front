@@ -13,6 +13,7 @@ const Header = () => {
                     justifyContent: 'center',
                     padding: '1rem',
                     backgroundColor: 'black',
+                    zIndex: 9999,
                 }}
                 >
                     <Link href="/" sx={{ color: 'white', textDecoration: 'none' }}>
