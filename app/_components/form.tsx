@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { Paper, CardContent, TextField, Select, MenuItem, FormControl, InputLabel, IconButton, Slider, Checkbox, FormControlLabel, RadioGroup, Radio, Button, Box, Rating } from '@mui/material';
 import { Delete as DeleteIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
 
-const FormComponent = () => {
+interface FormComponentProps {
+    onDelete: () => void; // 親から渡される削除関数
+}
+
+const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
     const [questionType, setQuestionType] = useState('');
     const [questionText, setQuestionText] = useState('');
     const [sliderValue, setSliderValue] = useState(50);
@@ -13,7 +17,7 @@ const FormComponent = () => {
     const [optionCount, setOptionCount] = useState(1);
 
     const handleDelete = () => {
-        // 削除処理（必要に応じて実装）
+        onDelete(); // 親から渡された削除関数を呼び出す
     };
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
@@ -51,6 +55,9 @@ const FormComponent = () => {
                         onChange={(e) => setQuestionText(e.target.value)}
                         fullWidth
                     />
+                    <IconButton onClick={handleDelete}>
+                        <DeleteIcon />
+                    </IconButton>
                 </Box>
 
                 <FormControl fullWidth sx={{ marginBottom: 2 }}>
@@ -79,9 +86,6 @@ const FormComponent = () => {
                             fullWidth
                             inputProps={{ min: 1, max: 10 }}
                         />
-                        <IconButton onClick={handleDelete}>
-                            <DeleteIcon />
-                        </IconButton>
                     </Box>
                 )}
 

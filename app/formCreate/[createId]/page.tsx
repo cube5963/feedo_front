@@ -2,11 +2,12 @@
 import React, { useState } from "react";
 import { Box, Drawer, List, ListItem, ListItemText, AppBar, Tabs, Tab, Paper, TextField, Toolbar, Typography, ListItemButton } from "@mui/material";
 import { Save, Share, Visibility, AddCircle } from "@mui/icons-material"; // アイコンのインポート
-import Form from "../../_components/form";
+import Form from "../../_components/form"; // Formコンポーネント
 
 const FormBuilderPage = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [formState, setFormState] = useState({ title: "", description: "" });
+    const [forms, setForms] = useState<any[]>([]); // 追加されたフォームを保持する状態
 
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setActiveTab(newValue);
@@ -16,8 +17,18 @@ const FormBuilderPage = () => {
         { text: "保存", icon: <Save />, action: () => alert("フォームが保存されました") },
         { text: "共有", icon: <Share />, action: () => alert("押されたときにモーダルにしてリンクを表示させる") },
         { text: "プレビュー", icon: <Visibility />, action: () => alert("押されたときにViewページに飛ばす") },
-        { text: "新規の質問追加", icon: <AddCircle />, action: () => alert("新しい質問が追加されました") },
+        { text: "新規の質問追加", icon: <AddCircle />, action: () => addNewForm() }, // 新しい質問追加のアクション
     ];
+
+    const addNewForm = () => {
+        setForms((prevForms) => [...prevForms, { id: Date.now() }]); // 新しいフォームを追加
+    };
+
+    const deleteForm = (id: number) => {
+        setForms((prevForms) => prevForms.filter((form) => form.id !== id)); // 特定のフォームを削除
+    };
+
+
 
     return (
         <Box sx={{ display: "flex", height: "100vh" }}>
@@ -93,7 +104,10 @@ const FormBuilderPage = () => {
                                     onChange={(e) => setFormState({ ...formState, description: e.target.value })}
                                 />
                             </Paper>
-                            <Form />
+                            {/* 動的に追加されたフォームを表示 */}
+                            {forms.map((form, index) => (
+                                <div key={index}><Form key={form.id} onDelete={() => deleteForm(form.id)} /></div>
+                            ))}
                         </div>
                     )}
                     {activeTab === 1 && <Typography>統計情報を表示するセクション</Typography>}
