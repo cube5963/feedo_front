@@ -1,7 +1,6 @@
 import {
     Link,
     Button,
-    Avatar,
     TextField,
     Typography,
     Box,
@@ -51,6 +50,17 @@ const Store = () => {
                 >
                     作成したフォーム一覧
                 </Typography>
+                <Link
+                href="/formCreate/[CreateId]"
+                >
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ marginBottom: 2 }}
+                    >
+                        新しいフォームを作成
+                    </Button>
+                </Link>
                 {/* 
                         ここに作成したフォームの一覧が表示される 
                         画面のサイズにもよるけど横の数は最大で3つまで
