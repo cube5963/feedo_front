@@ -95,8 +95,13 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                             <FormControlLabel
                                 key={index}
                                 value={`option${index + 1}`}
-                                control={<Radio />}
-                                label={<TextField variant="outlined" label={`オプション ${index + 1}`} />}
+                                control={<Radio disabled />}
+                                label={
+                                <TextField 
+                                variant="outlined" 
+                                label={`オプション ${index + 1}`}
+                                />
+                            }
                             />
                         ))}
                     </RadioGroup>
@@ -107,7 +112,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                         {Array.from({ length: optionCount }).map((_, index) => (
                             <FormControlLabel
                                 key={index}
-                                control={<Checkbox checked={checkboxValue} onChange={handleCheckboxChange} />}
+                                control={<Checkbox disabled checked={checkboxValue} onChange={handleCheckboxChange} />}
                                 label={<TextField variant="outlined" label={`オプション ${index + 1}`} />}
                             />
                         ))}
@@ -126,6 +131,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                             min={0}
                             max={100}
                             valueLabelDisplay="auto"
+                            disabled
                             sx={{ flexGrow: 1, marginLeft: 2, marginRight: 2 }}
                         />
                         <TextField
@@ -143,6 +149,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                             onChange={(event, newValue) => handleStarChange(newValue as number)}
                             max={5}
                             size="large" // スターの大きさを大きく設定
+                            disabled
                         />
                     </Box>
                 )}
@@ -153,6 +160,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                             onClick={() => handleNButtonChange('like')}
                             variant="contained"
                             color="primary"
+                            disabled
                             sx={{
                                 minWidth: 100,
                                 height: 100,
@@ -169,6 +177,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                             onClick={() => handleNButtonChange('dislike')}
                             variant="contained"
                             color="secondary"
+                            disabled
                             sx={{
                                 minWidth: 100,
                                 height: 100,
@@ -186,10 +195,11 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
 
                 {questionType === 'textbox' && (
                     <TextField
-                        label="テキストボックス"
+                        label="ここに記入してください"
                         fullWidth
                         multiline
                         rows={4}
+                        disabled
                     />
                 )}
             </CardContent>
