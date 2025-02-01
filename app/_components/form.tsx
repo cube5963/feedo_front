@@ -76,7 +76,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                     </Select>
                 </FormControl>
 
-                {(questionType === 'radio' || questionType === 'checkbox') && (
+                {(questionType === 'radio' || questionType === 'checkbox' || questionType === 'star') && (
                     <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
                         <TextField
                             type="number"
@@ -89,6 +89,19 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                     </Box>
                 )}
 
+                {(questionType === 'slider') && (
+                    <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
+                        <TextField
+                            type="number"
+                            label="スライダーの目盛数"
+                            value={optionCount}
+                            onChange={handleOptionCountChange}
+                            fullWidth
+                            inputProps={{ min: 1, max: 100 }}
+                        />
+                    </Box>
+                )}
+
                 {questionType === 'radio' && (
                     <RadioGroup value={radioValue} onChange={handleRadioChange}>
                         {Array.from({ length: optionCount }).map((_, index) => (
@@ -97,11 +110,11 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                                 value={`option${index + 1}`}
                                 control={<Radio disabled />}
                                 label={
-                                <TextField 
-                                variant="outlined" 
-                                label={`オプション ${index + 1}`}
-                                />
-                            }
+                                    <TextField
+                                        variant="outlined"
+                                        label={`オプション ${index + 1}`}
+                                    />
+                                }
                             />
                         ))}
                     </RadioGroup>
@@ -129,7 +142,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                             value={sliderValue}
                             onChange={handleSliderChange}
                             min={0}
-                            max={100}
+                            max={optionCount}
                             valueLabelDisplay="auto"
                             disabled
                             sx={{ flexGrow: 1, marginLeft: 2, marginRight: 2 }}
@@ -144,13 +157,17 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
 
                 {questionType === 'star' && (
                     <Box display="flex" justifyContent="center" marginBottom={2}>
-                        <Rating
-                            value={starValue}
-                            onChange={(event, newValue) => handleStarChange(newValue as number)}
-                            max={5}
-                            size="large" // スターの大きさを大きく設定
-                            disabled
-                        />
+                        {Array.from({ length: optionCount }).map((_, index) => (
+                            <Rating
+                                value={starValue}
+                                onChange={(event, newValue) => handleStarChange(newValue as number)}
+                                max={optionCount}
+                                key={index}
+                                size="large" // スターの大きさを大きく設定
+                                disabled
+                            />
+                        ))}
+
                     </Box>
                 )}
 

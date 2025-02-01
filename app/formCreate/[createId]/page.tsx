@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Box, Drawer, List, ListItem, ListItemText, AppBar, Tabs, Tab, Paper, TextField, Toolbar, Typography, ListItemButton } from "@mui/material";
+import { Box, Drawer, List, ListItem, ListItemText, AppBar, Tabs, Tab, Paper, TextField, Toolbar, Typography, ListItemButton, Link } from "@mui/material";
 import { Save, Share, Visibility, AddCircle } from "@mui/icons-material"; // アイコンのインポート
 import Form from "../../_components/form"; // Formコンポーネント
 import Raadio from "../../_components/radio"; // Radioコンポーネント
@@ -113,14 +113,35 @@ const FormBuilderPage = () => {
                             {forms.map((form, index) => (
                                 <div key={index}><Form key={form.id} onDelete={() => deleteForm(form.id)} /></div>
                             ))}
-                            <Raadio />
-                            <Cheeck />
-                            <Slideer />
-                            <Nbuttoon />
-                            <Teext />
                         </div>
                     )}
-                    {activeTab === 1 && <Typography>統計情報を表示するセクション</Typography>}
+                    {activeTab === 1 && (
+                        <div>
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                <Link href="/" underline="hover">
+                                    <Typography variant="h6">前の質問へ</Typography>
+                                </Link>
+                                <Link href="/" underline="hover">
+                                    <Typography variant="h6">次の質問へ</Typography>
+                                </Link>
+                            </Box>
+                            <Box sx={{ display: "flex"}}>
+                                <Paper sx={{ p: 2, marginTop: 2, width: "100%" }}>
+                                    <Typography variant="body1">質問内容をここにたくさんたくさん</Typography>
+                                </Paper>
+                            </Box>
+                            <Box sx={{ display: "flex", marginTop: 2 }}>{/* Radio,Check,nButtonの場合 */}
+                                <Paper sx={{ p: 2, marginTop: 2, width: "100%" }}>
+                                    <Typography variant="body1">選択肢1</Typography>
+                                </Paper>
+                            </Box>
+                            <Box sx={{ display: "flex", marginTop: 2 }}>{/* Starの場合*/}
+                                <Paper sx={{ p: 2, marginTop: 2, width: "100%" }}>
+                                    <Typography variant="body1">選択肢1</Typography>
+                                </Paper>
+                            </Box>
+                        </div>
+                    )}
                     {activeTab === 2 && <Typography>設定項目を表示するセクション</Typography>}
                 </Box>
             </Box>

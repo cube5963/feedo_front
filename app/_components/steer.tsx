@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Paper, CardContent, Typography, FormControl, FormControlLabel, Checkbox, Box, Button, } from '@mui/material';
+import { Paper, CardContent, Typography, Rating, Box, Button, } from '@mui/material';
 
 
 const Steer = () => {
     const [questionText, setQuestionText] = useState('ここが質問内容になる');
-    const [checkValue, setCheckValue] = useState('');
+    const [starValue, setStarValue] = useState(0);
     const [optionCount, setOptionCount] = useState(3);
 
-    const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCheckValue(event.target.value);
+    const handleStarChange = (newValue: number) => {
+        setStarValue(newValue);
     };
+
 
 
     return (
@@ -21,20 +22,16 @@ const Steer = () => {
                     </Typography>
                 </Box>
 
-                <FormControl fullWidth sx={{ marginBottom: 2 }}>
-                </FormControl>
-                    {Array.from({ length: optionCount }).map((_, index) => (
-                        <FormControlLabel
+                {Array.from({ length: optionCount }).map((_, index) => (
+                            <Rating
+                            value={starValue}
+                            onChange={(event, newValue) => handleStarChange(newValue as number)}
+                            max={1}
                             key={index}
-                            value={`option${index + 1}`}
-                            control={<Checkbox />}
-                            label={
-                                <Typography variant="body1">
-                                    選択肢{index + 1}
-                                </Typography>
-                            }
+                            size="large" // スターの大きさを大きく設定
+                            disabled
                         />
-                    ))}
+                        ))}
 
                 <Box
                     sx={{
