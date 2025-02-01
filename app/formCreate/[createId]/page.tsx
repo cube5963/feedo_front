@@ -3,6 +3,11 @@ import React, { useState } from "react";
 import { Box, Drawer, List, ListItem, ListItemText, AppBar, Tabs, Tab, Paper, TextField, Toolbar, Typography, ListItemButton } from "@mui/material";
 import { Save, Share, Visibility, AddCircle } from "@mui/icons-material"; // アイコンのインポート
 import Form from "../../_components/form"; // Formコンポーネント
+import Raadio from "../../_components/radio"; // Radioコンポーネント
+import Cheeck from "../../_components/check"; // Checkコンポーネント
+import Slideer from "../../_components/slideer"; // Sliderコンポーネント
+import Nbuttoon from "../../_components/nbuttoon"; // Nbuttonコンポーネント
+import Teext from "../../_components/teext"; // Textコンポーネント
 
 const FormBuilderPage = () => {
     const [activeTab, setActiveTab] = useState(0);
@@ -108,6 +113,11 @@ const FormBuilderPage = () => {
                             {forms.map((form, index) => (
                                 <div key={index}><Form key={form.id} onDelete={() => deleteForm(form.id)} /></div>
                             ))}
+                            <Raadio />
+                            <Cheeck />
+                            <Slideer />
+                            <Nbuttoon />
+                            <Teext />
                         </div>
                     )}
                     {activeTab === 1 && <Typography>統計情報を表示するセクション</Typography>}
@@ -115,6 +125,7 @@ const FormBuilderPage = () => {
                 </Box>
             </Box>
         </Box>
+
     );
 };
 
