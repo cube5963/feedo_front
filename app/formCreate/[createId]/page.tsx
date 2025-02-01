@@ -115,7 +115,7 @@ const FormBuilderPage = () => {
                             ))}
                         </div>
                     )}
-                    {activeTab === 1 && (
+                    {activeTab === 1 && (//統計場面の場合
                         <div>
                             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                                 <Link href="/" underline="hover">
