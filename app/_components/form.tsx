@@ -7,6 +7,7 @@ interface FormComponentProps {
 }
 
 const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
+    const quest = { question: "質問内容", };
     const [questionType, setQuestionType] = useState('');
     const [questionText, setQuestionText] = useState('');
     const [sliderValue, setSliderValue] = useState(50);
@@ -50,7 +51,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
             <CardContent>
                 <Box display="flex" justifyContent="space-between" marginBottom={2}>
                     <TextField
-                        label="質問内容"
+                        label={quest.question}
                         value={questionText}
                         onChange={(e) => setQuestionText(e.target.value)}
                         fullWidth

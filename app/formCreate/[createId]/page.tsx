@@ -3,13 +3,9 @@ import React, { useState } from "react";
 import { Box, Drawer, List, ListItem, ListItemText, AppBar, Tabs, Tab, Paper, TextField, Toolbar, Typography, ListItemButton, Link } from "@mui/material";
 import { Save, Share, Visibility, AddCircle } from "@mui/icons-material"; // アイコンのインポート
 import Form from "../../_components/form"; // Formコンポーネント
-import Raadio from "../../_components/radio"; // Radioコンポーネント
-import Cheeck from "../../_components/check"; // Checkコンポーネント
-import Slideer from "../../_components/slideer"; // Sliderコンポーネント
-import Nbuttoon from "../../_components/nbuttoon"; // Nbuttonコンポーネント
-import Teext from "../../_components/teext"; // Textコンポーネント
 
 const FormBuilderPage = () => {
+    const info = { title: "フォームタイトル", description: "フォームの説明" };
     const [activeTab, setActiveTab] = useState(0);
     const [formState, setFormState] = useState({ title: "", description: "" });
     const [forms, setForms] = useState<any[]>([]); // 追加されたフォームを保持する状態
@@ -92,7 +88,7 @@ const FormBuilderPage = () => {
                             <Paper elevation={3} sx={{ p: 3 }}>
                                 <TextField
                                     fullWidth
-                                    label="フォームタイトル"
+                                    label={info.title}
                                     variant="outlined"
                                     margin="normal"
                                     value={formState.title}
@@ -100,7 +96,7 @@ const FormBuilderPage = () => {
                                 />
                                 <TextField
                                     fullWidth
-                                    label="フォームの説明"
+                                    label={info.description}
                                     variant="outlined"
                                     margin="normal"
                                     multiline
