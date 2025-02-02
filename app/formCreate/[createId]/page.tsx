@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { Box, Drawer, List, ListItem, ListItemText, AppBar, Tabs, Tab, Paper, TextField, Toolbar, Typography, ListItemButton, Link } from "@mui/material";
 import { Save, Share, Visibility, AddCircle } from "@mui/icons-material"; // アイコンのインポート
 import Form from "../../_components/form"; // Formコンポーネント
-
+import Pie from "../../_components/piechart"; // Pieコンポーネント
+import Bar from "../../_components/barchart"; // Barコンポーネント
+import Comment from "../../_components/comment"; // Commentコンポーネント
 const FormBuilderPage = () => {
     const info = { title: "フォームタイトル", description: "フォームの説明" };
     const [activeTab, setActiveTab] = useState(0);
@@ -121,11 +123,20 @@ const FormBuilderPage = () => {
                                     <Typography variant="h6">次の質問へ</Typography>
                                 </Link>
                             </Box>
-                            <Box sx={{ display: "flex"}}>
+                            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                                 <Paper sx={{ p: 2, marginTop: 2, width: "100%" }}>
                                     <Typography variant="body1">{info.title}</Typography>
                                 </Paper>
-                                {/* ここにグラフを表示する */}
+                                {/* 
+                                    質問ごとに表示させるグラフを切り替える
+                                    radio, buttonは円グラフ
+                                    slider, checkbox, starは棒グラフ
+                                    textはそのまま表示
+                                    以下にはそれぞれのデザインを表示
+                                */}
+                                <Pie />
+                                <Bar />
+                                <Comment />
                             </Box>
                         </div>
                     )}
