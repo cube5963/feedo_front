@@ -10,6 +10,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import Tools from '../../_components/tools';
 const Store = () => {
+    const form = { title: "フォームタイトル", description: "フォームの説明" };
     return (
         <Container>
             <Box
@@ -80,13 +81,13 @@ const Store = () => {
                         variant="h5"
                         sx={{ marginBottom: 2 }}
                     >
-                        タイトル：Form1{/**ここにフォームのタイトルが入る */}
+                        {form.title}
                     </Typography>
                     <Typography
                         variant="body1"
                         sx={{ marginBottom: 2 }}
                     >
-                        Description1{/**ここにフォームの説明が入る */}
+                        説明：{form.description}
                     </Typography>
                     <Link
                         href="/formStore/[StoreId]/form/[FormId]"
