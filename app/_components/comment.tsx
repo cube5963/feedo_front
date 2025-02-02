@@ -15,7 +15,7 @@ const Comment = () => {
         <div>
             <Box>
             {comments.map((comment, index) => (
-                <Card key={index} sx={{ marginTop: 2 }}>
+                <Card key={index}>
                     <CardContent>
                         <Typography variant="body2" component="p">
                             {comment.text}
