@@ -123,18 +123,9 @@ const FormBuilderPage = () => {
                             </Box>
                             <Box sx={{ display: "flex"}}>
                                 <Paper sx={{ p: 2, marginTop: 2, width: "100%" }}>
-                                    <Typography variant="body1">質問内容をここにたくさんたくさん</Typography>
+                                    <Typography variant="body1">{info.title}</Typography>
                                 </Paper>
-                            </Box>
-                            <Box sx={{ display: "flex", marginTop: 2 }}>{/* Radio,Check,nButtonの場合 */}
-                                <Paper sx={{ p: 2, marginTop: 2, width: "100%" }}>
-                                    <Typography variant="body1">選択肢1</Typography>
-                                </Paper>
-                            </Box>
-                            <Box sx={{ display: "flex", marginTop: 2 }}>{/* Starの場合*/}
-                                <Paper sx={{ p: 2, marginTop: 2, width: "100%" }}>
-                                    <Typography variant="body1">選択肢1</Typography>
-                                </Paper>
+                                {/* ここにグラフを表示する */}
                             </Box>
                         </div>
                     )}
