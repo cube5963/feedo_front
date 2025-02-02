@@ -1,3 +1,4 @@
+'use client';
 import {
     Button,
     Container,
@@ -6,7 +7,14 @@ import {
     Typography,
     Paper,
     Link,
+    IconButton,
+    InputAdornment
 } from "@mui/material";
+import * as React from "react";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+
 
 const SignUp = () => {
     const handleSignUp = (): void => {
@@ -16,7 +24,16 @@ const SignUp = () => {
         すでにEmail, Passwordが登録されている場合は、既に登録されています。をだす。
         */
     }
+    const [showPassword, setShowPassword] = React.useState(false);
 
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
+    const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
     return (
         <Container>
             <Box
@@ -55,6 +72,21 @@ const SignUp = () => {
                         variant="outlined"
                         fullWidth
                         margin="normal"
+                        type={showPassword ? "text" : "password"}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        onMouseUp={handleMouseUpPassword}
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                         sx={{ marginBottom: 2 }}
                     />
                     <TextField
@@ -62,6 +94,21 @@ const SignUp = () => {
                         variant="outlined"
                         fullWidth
                         margin="normal"
+                        type={showPassword ? "text" : "password"}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        onMouseUp={handleMouseUpPassword}
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                         sx={{ marginBottom: 2 }}
                     />
                     <Button

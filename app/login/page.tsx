@@ -7,10 +7,27 @@ import {
     Paper,
     Container,
     Link,
+    IconButton,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment,
+
 } from "@mui/material";
+import * as React from "react";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
+    const [showPassword, setShowPassword] = React.useState(false);
 
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
+    const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
 
 
 
@@ -48,11 +65,25 @@ const Login = () => {
                         sx={{ marginBottom: 2 }}
                     />
                     <TextField
-                        type="password"
                         label="Password"
                         variant="outlined"
                         fullWidth
                         margin="normal"
+                        type={showPassword ? "text" : "password"}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        onMouseUp={handleMouseUpPassword}
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                         sx={{ marginBottom: 2 }}
                     />
                     <Button
@@ -72,23 +103,23 @@ const Login = () => {
                     </Button>
                 </Paper>
             </Box>
-            <Link 
-            href="/signup"
-            sx={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: 2,
-            }}
+            <Link
+                href="/signup"
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: 2,
+                }}
             >
                 <Button
                     variant="text"
                     color="primary"
                     sx={{
-                        marginTop: 2, 
+                        marginTop: 2,
                     }}
                 >
                     アカウントをお持ちでない方はこちら
-                </Button>   
+                </Button>
             </Link>
         </Container >
     );
