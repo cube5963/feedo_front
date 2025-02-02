@@ -48,6 +48,7 @@ const Login = () => {
                         sx={{ marginBottom: 2 }}
                     />
                     <TextField
+                        type="password"
                         label="Password"
                         variant="outlined"
                         fullWidth
