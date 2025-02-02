@@ -20,7 +20,6 @@ const Teext = () => {
                         fullWidth
                         multiline
                         rows={4}
-                        disabled
                     />
                 </Box>
 

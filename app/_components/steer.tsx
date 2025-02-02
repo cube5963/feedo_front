@@ -5,7 +5,7 @@ import { Paper, CardContent, Typography, Rating, Box, Button, } from '@mui/mater
 const Steer = () => {
     const [questionText, setQuestionText] = useState('ここが質問内容になる');
     const [starValue, setStarValue] = useState(0);
-    const [optionCount, setOptionCount] = useState(3);
+    const [optionCount, setOptionCount] = useState(5);
 
     const handleStarChange = (newValue: number) => {
         setStarValue(newValue);
@@ -22,16 +22,15 @@ const Steer = () => {
                     </Typography>
                 </Box>
 
-                {Array.from({ length: optionCount }).map((_, index) => (
-                            <Rating
+                <Box display="flex" justifyContent="center">
+                        <Rating
                             value={starValue}
                             onChange={(event, newValue) => handleStarChange(newValue as number)}
-                            max={1}
-                            key={index}
+                            max={optionCount}
                             size="large" // スターの大きさを大きく設定
-                            disabled
+                            sx={{ alignItems: 'center' }} // スターを中央に配置
                         />
-                        ))}
+                </Box>
 
                 <Box
                     sx={{

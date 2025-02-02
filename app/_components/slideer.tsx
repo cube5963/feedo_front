@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper, CardContent, Typography, Rating, Box, Button, } from '@mui/material';
+import { Paper, CardContent, Typography, Slider, Box, Button, } from '@mui/material';
 
 
 const Cheeck = () => {
@@ -20,11 +20,14 @@ const Cheeck = () => {
                 </Box>
 
                 <Box display="flex" justifyContent="center" marginBottom={2}>
-                    <Rating
+                    <Slider
                         value={starValue}
                         onChange={(event, newValue) => handleStarChange(newValue as number)}
                         max={5}
-                        size="large" // スターの大きさを大きく設定
+                        step={1}
+                        marks
+                        valueLabelDisplay="auto"
+                        sx={{ width: 300 }} // スライダーの幅を設定
                     />
                 </Box>
 
