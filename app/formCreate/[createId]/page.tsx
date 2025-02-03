@@ -17,7 +17,23 @@ const FormBuilderPage = () => {
     };
 
     const drawerItems = [
-        { text: "保存", icon: <Save />, action: () => alert("フォームが保存されました") },
+    { text: "保存", icon: <Save />, action: () => console.log({
+        title: "Customer Feedback",
+        description: "Survey for customer satisfaction",
+        userId: "testuser",
+        questions: [
+        {
+        title: "How satisfied are you?",
+        type: "RADIO",
+        content: "[\"Very Satisfied\", \"Satisfied\", \"Neutral\", \"Dissatisfied\"]"
+        },
+        {
+        title: "Select the features you use.",
+        type: "CHECKBOX",
+        content: "[\"Feature A\", \"Feature B\", \"Feature C\"]"
+        }
+        ]
+    })},
         { text: "共有", icon: <Share />, action: () => alert("押されたときにモーダルにしてリンクを表示させる") },
         { text: "プレビュー", icon: <Visibility />, action: () => alert("押されたときにViewページに飛ばす") },
         { text: "新規の質問追加", icon: <AddCircle />, action: () => addNewForm() }, // 新しい質問追加のアクション
