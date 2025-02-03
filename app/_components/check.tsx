@@ -24,18 +24,18 @@ const Cheeck = () => {
 
                 <FormControl fullWidth sx={{ marginBottom: 2 }}>
                 </FormControl>
-                    {Array.from({ length: optionCount }).map((_, index) => (
-                        <FormControlLabel
-                            key={index}
-                            value={`option${index + 1}`}
-                            control={<Checkbox sx={{ transform: 'scale(1.5)' }} />}
-                            label={
-                                <Typography variant="body1">
-                                    選択肢{index + 1}
-                                </Typography>
-                            }
-                        />
-                    ))}
+                {Array.from({ length: optionCount }).map((_, index) => (
+                    <FormControlLabel
+                        key={index}
+                        value={`option${index + 1}`}
+                        control={<Checkbox sx={{ transform: 'scale(1.5)' }} />}
+                        label={
+                            <Typography variant="body1">
+                                選択肢{index + 1}
+                            </Typography>
+                        }
+                    />
+                ))}
 
                 <Box
                     sx={{

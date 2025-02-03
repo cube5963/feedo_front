@@ -16,15 +16,15 @@ export default function BasicPie() {
 
     return (
         <div>
-        <Card>
-            <CardContent>
-                <PieChart
-                    series={pieSeries}
-                    width={400}
-                    height={200}
-                />
-            </CardContent>
-        </Card>
+            <Card>
+                <CardContent>
+                    <PieChart
+                        series={pieSeries}
+                        width={400}
+                        height={200}
+                    />
+                </CardContent>
+            </Card>
         </div>
     );
 }

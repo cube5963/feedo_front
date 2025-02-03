@@ -27,15 +27,15 @@ const Tools = () => {
                         <SettingsIcon />
                     </IconButton>
                 </Link>
-                <Link 
-                href="/[accountId]"
+                <Link
+                    href="/[accountId]"
                 >
                     <Avatar>
-                    {/* 
+                        {/* 
                         ユーザーアイコン 
                         プロフィールページで設定した画像を使えるようにする。
                      */}
-                </Avatar>
+                    </Avatar>
                 </Link>
             </Box>
         </Container >

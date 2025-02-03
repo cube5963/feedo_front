@@ -3,7 +3,7 @@ import {
     Typography,
     Card,
     CardContent,
-}from '@mui/material';
+} from '@mui/material';
 
 const Comment = () => {
     const comments = [
@@ -14,17 +14,17 @@ const Comment = () => {
     return (
         <div>
             <Box>
-            {comments.map((comment, index) => (
-                <Card key={index}>
-                    <CardContent>
-                        <Typography variant="body2" component="p">
-                            {comment.text}
-                        </Typography>
-                    </CardContent>
-                </Card>
-            ))}
-        </Box>
-        </div>       
+                {comments.map((comment, index) => (
+                    <Card key={index}>
+                        <CardContent>
+                            <Typography variant="body2" component="p">
+                                {comment.text}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                ))}
+            </Box>
+        </div>
     );
 }
 export default Comment;

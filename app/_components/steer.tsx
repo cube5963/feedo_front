@@ -23,13 +23,13 @@ const Steer = () => {
                 </Box>
 
                 <Box display="flex" justifyContent="center">
-                        <Rating
-                            value={starValue}
-                            onChange={(event, newValue) => handleStarChange(newValue as number)}
-                            max={optionCount}
-                            size="large" // スターの大きさを大きく設定
-                            sx={{ alignItems: 'center' }} // スターを中央に配置
-                        />
+                    <Rating
+                        value={starValue}
+                        onChange={(event, newValue) => handleStarChange(newValue as number)}
+                        max={optionCount}
+                        size="large" // スターの大きさを大きく設定
+                        sx={{ alignItems: 'center' }} // スターを中央に配置
+                    />
                 </Box>
 
                 <Box

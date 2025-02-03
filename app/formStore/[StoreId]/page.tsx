@@ -52,7 +52,7 @@ const Store = () => {
                     作成したフォーム一覧
                 </Typography>
                 <Link
-                href="/formCreate/[CreateId]"
+                    href="/formCreate/[CreateId]"
                 >
                     <Button
                         variant="contained"
