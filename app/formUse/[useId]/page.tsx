@@ -29,8 +29,8 @@ import Slider from "../../_components/slideer";
 import Nbutton from "../../_components/nbuttoon";
 
 const formContent = {
-  title: 'アンケートのデモ版についてのアンケートについてのアンケート',
-  description: 'アンケートのデモ版についてのアンケートについてのアンケートを行っています！ぜひ回答お願いします！',
+  title: 'アンケートのデモ版についてのアンケート',
+  description: 'アンケートのデモ版についてのアンケートを行っています！ぜひ回答お願いします！',
   questions: [
     { id: 1, component: <Check /> },
     { id: 2, component: <Text /> },
