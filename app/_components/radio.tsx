@@ -28,7 +28,7 @@ const Raadio = () => {
                         <FormControlLabel
                             key={index}
                             value={`option${index + 1}`}
-                            control={<Radio />}
+                            control={<Radio sx={{ transform: 'scale(1.5)' }} />}
                             label={
                                 <Typography variant="body1">
                                     選択肢{index + 1}

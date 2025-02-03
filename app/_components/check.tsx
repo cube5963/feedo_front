@@ -28,7 +28,7 @@ const Cheeck = () => {
                         <FormControlLabel
                             key={index}
                             value={`option${index + 1}`}
-                            control={<Checkbox />}
+                            control={<Checkbox sx={{ transform: 'scale(1.5)' }} />}
                             label={
                                 <Typography variant="body1">
                                     選択肢{index + 1}
