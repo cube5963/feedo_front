@@ -8,16 +8,16 @@ import {
     Container,
     Link,
     IconButton,
-    InputLabel,
-    OutlinedInput,
     InputAdornment,
-
 } from "@mui/material";
 import * as React from "react";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { login } from "../lib/api/login";
 
 const Login = () => {
+    const [email, setEmail] = React.useState(""); // emailの状態を管理
+    const [password, setPassword] = React.useState(""); // passwordの状態を管理
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -29,14 +29,17 @@ const Login = () => {
         event.preventDefault();
     };
 
-
+    // ログインボタンが押されたときに入力内容を出力
+    const handleLogin = async () => {
+        await login(email, password);
+    };
 
     return (
         <Container>
             <Box
                 sx={{
                     display: "flex",
-                    fiexDirection: "column",
+                    flexDirection: "column", // 修正: "fiexDirection" -> "flexDirection"
                     alignItems: "center",
                     justifyContent: "center",
                     p: 2,
@@ -57,13 +60,17 @@ const Login = () => {
                     >
                         Login
                     </Typography>
+                    {/* Email入力 */}
                     <TextField
                         label="Email"
                         variant="outlined"
                         fullWidth
                         margin="normal"
                         sx={{ marginBottom: 2 }}
+                        value={email} // stateをvalueとして渡す
+                        onChange={(e) => setEmail(e.target.value)} // 入力が変更された時にstateを更新
                     />
+                    {/* Password入力 */}
                     <TextField
                         label="Password"
                         variant="outlined"
@@ -85,12 +92,12 @@ const Login = () => {
                             ),
                         }}
                         sx={{ marginBottom: 2 }}
+                        value={password} // stateをvalueとして渡す
+                        onChange={(e) => setPassword(e.target.value)} // 入力が変更された時にstateを更新
                     />
+                    {/* ログインボタン */}
                     <Button
-                        onClick={() => {
-                            window.location.href = "/formStore/[storeId]";
-                        }}
-                        //disabled={/*loading*/}
+                        onClick={handleLogin} // ボタンクリック時にhandleLogin関数を実行
                         variant="contained"
                         color="primary"
                         fullWidth
@@ -99,7 +106,7 @@ const Login = () => {
                             padding: { xs: "8px", sm: "12px" },
                         }}
                     >
-                        {/*loading ? "Loading..." : "Login with Google"*/}ログイン{/*ここのログイン方法はあとで教えて*/}
+                        ログイン
                     </Button>
                 </Paper>
             </Box>
@@ -121,7 +128,8 @@ const Login = () => {
                     アカウントをお持ちでない方はこちら
                 </Button>
             </Link>
-        </Container >
+        </Container>
     );
 };
+
 export default Login;

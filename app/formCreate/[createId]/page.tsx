@@ -31,8 +31,6 @@ const FormBuilderPage = () => {
         setForms((prevForms) => prevForms.filter((form) => form.id !== id)); // 特定のフォームを削除
     };
 
-
-
     return (
         <Box sx={{ display: "flex", height: "100vh" }}>
             {/* Drawer */}
