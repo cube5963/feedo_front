@@ -1,0 +1,96 @@
+"use client";
+import React, { useState } from "react";
+import { Box, Drawer, List, ListItem, ListItemText, Paper, TextField, Toolbar, ListItemButton } from "@mui/material";
+import { Save, Share, Visibility, AddCircle } from "@mui/icons-material"; // アイコンのインポート
+import Form from "../../_components/form"; // Formコンポーネント
+const FormBuilderPage = () => {
+    const info = { title: "フォームタイトル", description: "フォームの説明" };
+    const [formState, setFormState] = useState({ title: "", description: "" });
+    interface Form {
+        id: number;
+    }
+
+    const [forms, setForms] = useState<Form[]>([]); // 追加されたフォームを保持する状態
+
+    const drawerItems = [
+        {
+            text: "保存", icon: <Save />, action: () => console.log("保存ボタンが押されました")
+        },
+        { text: "共有", icon: <Share />, action: () => alert("押されたときにモーダルにしてリンクを表示させる") },
+        { text: "プレビュー", icon: <Visibility />, action: () => alert("押されたときにViewページに飛ばす") },
+        { text: "新規の質問追加", icon: <AddCircle />, action: () => addNewForm() }, // 新しい質問追加のアクション
+    ];
+
+    const addNewForm = () => {
+        setForms((prevForms) => [...prevForms, { id: Date.now() }]); // 新しいフォームを追加
+    };
+
+    const deleteForm = (id: number) => {
+        setForms((prevForms) => prevForms.filter((form) => form.id !== id)); // 特定のフォームを削除
+    };
+
+    return (
+        <Box sx={{ display: "flex", height: "100vh" }}>
+            {/* Drawer */}
+            <Drawer
+                variant="permanent"
+                sx={{
+                    flexShrink: 0,
+                    width: 240,
+                    [`& .MuiDrawer-paper`]: {
+                        width: 240,
+                        boxSizing: "border-box",
+                        marginTop: 10, // paper部分の位置を調整
+                    },
+                }}
+            >
+                <Toolbar />
+                <List>
+                    {drawerItems.map((item, index) => (
+                        <ListItem key={index} onClick={item.action}>
+                            <ListItemButton sx={{ m: 0, p: 2 }}>
+                                {item.icon}
+                                <ListItemText primary={item.text} sx={{ ml: 2 }} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
+
+            {/* Main Content */}
+            <Box sx={{ flexGrow: 1, ml: 0 }}>
+                <Box sx={{ p: 3 }}>
+                    <div>
+                        <Paper elevation={3} sx={{ p: 3 }}>
+                            <TextField
+                                fullWidth
+                                label={info.title}
+                                variant="outlined"
+                                margin="normal"
+                                value={formState.title}
+                                onChange={(e) => setFormState({ ...formState, title: e.target.value })}
+                            />
+                            <TextField
+                                fullWidth
+                                label={info.description}
+                                variant="outlined"
+                                margin="normal"
+                                multiline
+                                rows={4}
+                                value={formState.description}
+                                onChange={(e) => setFormState({ ...formState, description: e.target.value })}
+                            />
+                        </Paper>
+                        {/* 動的に追加されたフォームを表示 */}
+                        {forms.map((form, index) => (
+                            <div key={index}><Form key={form.id} onDelete={() => deleteForm(form.id)} /></div>
+                        ))}
+                    </div>
+                </Box>
+            </Box>
+        </Box >
+
+    );
+};
+
+export default FormBuilderPage;

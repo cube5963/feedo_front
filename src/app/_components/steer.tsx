@@ -11,8 +11,6 @@ const Steer = () => {
         setStarValue(newValue);
     };
 
-
-
     return (
         <Paper sx={{ marginTop: 2, marginBottom: 2, padding: 2 }}>
             <CardContent>

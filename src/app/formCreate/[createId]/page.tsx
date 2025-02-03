@@ -14,6 +14,7 @@ const FormBuilderPage = () => {
 
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setActiveTab(newValue);
+        console.log(forms);
     };
 
     const drawerItems = [
