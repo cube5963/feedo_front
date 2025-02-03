@@ -3,7 +3,7 @@ import { Paper, CardContent, Typography, Rating, Box, Button, } from '@mui/mater
 
 
 const Steer = () => {
-    const [questionText, setQuestionText] = useState('ここが質問内容になる');
+    const [questionText, setQuestionText] = useState('当ホテルはいかがでしたか？');
     const [starValue, setStarValue] = useState(0);
     const [optionCount, setOptionCount] = useState(5);
 

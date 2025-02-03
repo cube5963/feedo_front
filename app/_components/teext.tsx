@@ -3,7 +3,7 @@ import { Paper, CardContent, Typography, TextField, Box, Button, } from '@mui/ma
 
 
 const Teext = () => {
-    const [questionText, setQuestionText] = useState('ここが質問内容になる');
+    const [questionText, setQuestionText] = useState('なぜそれを選択したのか記入してください。');
 
     return (
         <Paper sx={{ marginTop: 2, marginBottom: 2, padding: 2 }}>

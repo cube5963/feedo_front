@@ -4,14 +4,20 @@ import { Paper, CardContent, Typography, FormControl, FormControlLabel, Checkbox
 
 
 const Cheeck = () => {
-    const [questionText, setQuestionText] = useState('ここが質問内容になる');
+    const [questionText, setQuestionText] = useState('好きな動物をすべて選択してください！');
     const [checkValue, setCheckValue] = useState('');
     const [optionCount, setOptionCount] = useState(5);
 
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCheckValue(event.target.value);
     };
-
+    const test = [
+        { option: "犬" },
+        { option: "猫" },
+        { option: "鳥" },
+        { option: "魚" },
+        { option: "爬虫類" },
+    ]
 
     return (
         <Paper sx={{ marginTop: 2, marginBottom: 2, padding: 2 }}>
@@ -31,7 +37,7 @@ const Cheeck = () => {
                         control={<Checkbox sx={{ transform: 'scale(1.5)' }} />}
                         label={
                             <Typography variant="body1">
-                                選択肢{index + 1}
+                                {test[index].option}
                             </Typography>
                         }
                     />
