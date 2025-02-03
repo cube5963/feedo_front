@@ -76,10 +76,12 @@ export default function Home() {
   return (
     <Container>
       <Box>
-        <IconButton color="primary" onClick={handleOpen}>
-          <LanguageIcon />
-        </IconButton>
-        <Typography variant="body1" sx={{ whiteSpace: "nowrap" }}>Language</Typography>
+        <Box display="flex" alignItems="center">
+          <IconButton color="primary" onClick={handleOpen}>
+            <LanguageIcon />
+          </IconButton>
+          <Typography variant="body1" ml={1}>Language</Typography>
+        </Box>
       </Box>
 
       <Dialog open={open} onClose={handleClose}>
