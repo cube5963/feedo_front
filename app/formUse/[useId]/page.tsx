@@ -79,6 +79,7 @@ export default function Home() {
         <IconButton color="primary" onClick={handleOpen}>
           <LanguageIcon />
         </IconButton>
+        <Typography variant="body1" sx={{ whiteSpace: "nowrap" }}>Language</Typography>
       </Box>
 
       <Dialog open={open} onClose={handleClose}>
