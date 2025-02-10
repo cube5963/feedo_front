@@ -3,7 +3,7 @@ import { Paper, CardContent, Typography, Slider, Box, Button, } from '@mui/mater
 
 
 const Cheeck = () => {
-    const [questionText, setQuestionText] = useState('ここが質問内容になる');
+    const [questionText, setQuestionText] = useState('緊張度合いを0~5で教えてください。');
     const [starValue, setStarValue] = useState(0);
 
     const handleStarChange = (newValue: number) => {

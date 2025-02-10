@@ -3,7 +3,7 @@ import { Paper, CardContent, Typography, Box, Button, } from '@mui/material';
 import { ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
 
 const Nbuttoon = () => {
-    const [questionText, setQuestionText] = useState('ここが質問内容になる');
+    const [questionText, setQuestionText] = useState('猫は好きですか？');
     const [nButtonValue, setNButtonValue] = useState('');
 
     const handleNButtonChange = (value: string) => {
