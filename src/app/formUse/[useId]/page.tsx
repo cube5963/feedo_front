@@ -21,12 +21,12 @@ import {
   Typography,
 } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
-import Check from "../../_components/check";
-import Text from "../../_components/teext";
-import Radio from "../../_components/radio";
-import Ster from "../../_components/steer";
-import Slider from "../../_components/slideer";
-import Nbutton from "../../_components/nbuttoon";
+import Check from "../../_components/form/check";
+import Text from "../../_components/form/text";
+import Radio from "../../_components/form/radio";
+import Ster from "../../_components/form/star";
+import Slider from "../../_components/form/slider";
+import Nbutton from "../../_components/form/two_choice";
 
 const formContent = {
   title: 'アンケートのデモ版についてのアンケート',

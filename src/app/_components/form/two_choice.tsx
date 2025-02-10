@@ -1,13 +1,19 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Paper, CardContent, Typography, Box, Button, } from '@mui/material';
 import { ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
 
-const Nbuttoon = () => {
-    const [questionText, setQuestionText] = useState('猫は好きですか？');
+interface FromTwoChoiceProps {
+    title: string;
+}
+
+export default function FromTwoChoice({ title }: FromTwoChoiceProps) {
     const [nButtonValue, setNButtonValue] = useState('');
 
     const handleNButtonChange = (value: string) => {
         setNButtonValue(value);
+        console.log(nButtonValue);
     };
 
 
@@ -16,7 +22,7 @@ const Nbuttoon = () => {
             <CardContent>
                 <Box display="flex" justifyContent="space-between" marginBottom={2}>
                     <Typography variant="h6">
-                        {questionText}
+                        {title}
                     </Typography>
                 </Box>
 
@@ -58,5 +64,3 @@ const Nbuttoon = () => {
         </Paper>
     );
 };
-
-export default Nbuttoon;
