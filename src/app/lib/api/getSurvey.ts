@@ -22,6 +22,6 @@ export async function getSurvey(surveyid: number) {
     query: GetSurvey,
     variables: { surveyid },
   });
-
+  console.log(data.getSurvey);
   return data.getSurvey;
 }

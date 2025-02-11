@@ -1,0 +1,41 @@
+mutation {
+  createSurvey(
+    createsurveyinput: {
+      title: "テスト"
+      description: "これはテストです"
+      userId: "testuser"
+      questions: [
+        {
+          title: "一番好きなのは？"
+          type: RADIO
+          content: "[\"犬\", \"猫\", \"鳥\", \"魚\", \"爬虫類\"]"
+        },
+        {
+          title: "好きな動物をすべて選択してください！"
+          type: CHECKBOX
+          content: "[\"犬\", \"猫\", \"鳥\", \"魚\", \"爬虫類\"]"
+        },
+        {
+          title: "緊張度合いを0~5で教えてください"
+          type: SLIDER
+          content: "[\"5\", \"0\", \"1\"]"
+        },
+        {
+          title: "このアプリの評価をお願いします！"
+          type: STAR_RATING
+          content: "[\"5\"]"
+        },
+        {
+          title: "猫は好きですか？"
+          type: TWO_CHOICE
+          content: "[\"\"]"
+        },
+        {
+          title: "なぜそれを選択したのか記入してください"
+          type: TEXTBOX
+          content: "[\"\"]"
+        }
+      ]
+    }
+  )
+}
