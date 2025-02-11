@@ -11,7 +11,7 @@ import FormStar from '../_components/form/star';
 import FormText from '../_components/form/text';
 import FormTwoChoice from '../_components/form/two_choice';
 import { answerSurvey } from "../lib/api/answerSurvey";
-
+import Button from '@mui/material/Button';
 export default function Home() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -159,7 +159,7 @@ export default function Home() {
         </Box>
       </Box>
       <Box mt={4} textAlign="center">
-        <button type="submit" onClick={handleSubmit}>Submit</button>
+        <Button type="submit" variant="contained" onClick={handleSubmit}>Submit</Button>
       </Box>
     </Container>
   );

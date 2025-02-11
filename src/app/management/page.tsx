@@ -49,19 +49,30 @@ export default function Home() {
           新しいフォームを作成
         </Button>
         {surveyData.length > 0 ? (
-          surveyData.map((survey) => (
-            <Card key={survey.id} sx={{ padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: 'auto', maxWidth: 350, marginBottom: 2 }}>
-              <Typography variant="h5" sx={{ marginBottom: 2 }}>
-                {survey.title}
-              </Typography>
-              <Button variant="contained" color="primary" sx={{ marginBottom: 1 }} onClick={() => window.location.href = `/answer?id=${survey.id}`}>
-                プレビュー
-              </Button>
-              <Button variant="contained" color="secondary" onClick={() => window.location.href = `/management/answer?id=${survey.id}`}>
-                解凍
-              </Button>
-            </Card>
-          ))
+          <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+            {surveyData.map((survey) => (
+              <Card key={survey.id} sx={{ padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography
+            variant="h5"
+            sx={{
+              marginBottom: 2,
+              maxWidth: '200px',
+              whiteSpace: 'normal',
+              wordWrap: 'break-word',
+              textAlign: 'center'
+            }}
+          >
+            {survey.title}
+          </Typography>
+          <Button variant="contained" color="primary" sx={{ marginBottom: 1 }} onClick={() => window.location.href = `/answer?id=${survey.id}`}>
+            編集する
+          </Button>
+          <Button variant="contained" color="success" onClick={() => window.location.href = `/management/answer?id=${survey.id}`}>
+            回答をみる
+          </Button>
+              </Card>
+            ))}
+          </Box>
         ) : (
           <Typography>Loading...</Typography>
         )}
