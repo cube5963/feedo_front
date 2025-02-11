@@ -1,3 +1,4 @@
+// Update Home component to pass onAnswerChange callback to each form component and collect answers
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -9,7 +10,7 @@ import FormRadio from '../_components/form/radio';
 import FormSlider from '../_components/form/slider';
 import FormStar from '../_components/form/star';
 import FormText from '../_components/form/text';
-import FromTwoChoice from '../_components/form/two_choice';
+import FormTwoChoice from '../_components/form/two_choice';
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -23,6 +24,7 @@ export default function Home() {
 
   const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [answers, setAnswers] = useState<{ questionId: number; answer: any }[]>([]);
 
   useEffect(() => {
     if (!id) return;
@@ -40,6 +42,32 @@ export default function Home() {
 
     fetchData();
   }, [id]);
+
+  const handleAnswerChange = (questionId: number, answer: any) => {
+    setAnswers((prev) => {
+      const existingAnswerIndex = prev.findIndex((a) => a.questionId === questionId);
+      const formattedAnswer = JSON.stringify(Array.isArray(answer) ? answer : [answer]);
+  
+      if (existingAnswerIndex !== -1) {
+        const updatedAnswers = [...prev];
+        updatedAnswers[existingAnswerIndex].answer = formattedAnswer;
+        return updatedAnswers;
+      } else {
+        return [...prev, { questionId, answer: formattedAnswer }];
+      }
+    });
+  };
+  
+
+  const handleSubmit = () => {
+    console.log({
+      surveyId: id,
+      answers: answers.map((a) => ({
+        questionId: a.questionId,
+        answer: a.answer,
+      })),
+    });
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -62,24 +90,75 @@ export default function Home() {
           {surveyData.questions.map((question) => {
             switch (question.type) {
               case 'RADIO':
-                return <FormRadio key={question.id} title={question.title} options={question.content} />;
+                return (
+                  <FormRadio
+                    key={question.id}
+                    title={question.title}
+                    options={question.content}
+                    onAnswerChange={handleAnswerChange}
+                    questionId={question.id}
+                  />
+                );
               case 'CHECKBOX':
-                return <FormCheck key={question.id} title={question.title} options={question.content} />;
+                return (
+                  <FormCheck
+                    key={question.id}
+                    title={question.title}
+                    options={question.content}
+                    onAnswerChange={handleAnswerChange}
+                    questionId={question.id}
+                  />
+                );
               case 'SLIDER':
                 const [max, min, step] = question.content.map(Number);
-                return <FormSlider key={question.id} title={question.title} max={max} min={min} step={step} />;
+                return (
+                  <FormSlider
+                    key={question.id}
+                    title={question.title}
+                    max={max}
+                    min={min}
+                    step={step}
+                    onAnswerChange={handleAnswerChange}
+                    questionId={question.id}
+                  />
+                );
               case 'STAR_RATING':
                 const [num] = question.content.map(Number);
-                return <FormStar key={question.id} title={question.title} max={num} />;
+                return (
+                  <FormStar
+                    key={question.id}
+                    title={question.title}
+                    max={num}
+                    onAnswerChange={handleAnswerChange}
+                    questionId={question.id}
+                  />
+                );
               case 'TWO_CHOICE':
-                return <FromTwoChoice key={question.id} title={question.title} />;
+                return (
+                  <FormTwoChoice
+                    key={question.id}
+                    title={question.title}
+                    onAnswerChange={handleAnswerChange}
+                    questionId={question.id}
+                  />
+                );
               case 'TEXTBOX':
-                return <FormText key={question.id} title={question.title} />;
+                return (
+                  <FormText
+                    key={question.id}
+                    title={question.title}
+                    onAnswerChange={handleAnswerChange}
+                    questionId={question.id}
+                  />
+                );
               default:
                 return null;
             }
           })}
         </Box>
+      </Box>
+      <Box mt={4} textAlign="center">
+        <button type="submit" onClick={handleSubmit}>Submit</button>
       </Box>
     </Container>
   );

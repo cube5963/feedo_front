@@ -1,0 +1,9 @@
+mutation {
+  answerSurvey(answersurveyinput: {
+    surveyId: 8,
+    answers: [
+      { questionId: 1, answer: "[\"Neutrall\"]" },
+      { questionId: 2, answer: "[\"Feature A\",\"Feature B\"]" }
+    ]
+  })
+}

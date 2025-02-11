@@ -1,21 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// Define the Question interface
+interface Question {
+    id: number;
+    title: string;
+    type: string;
+    content: string;
+}
 import { Paper, CardContent, TextField, Select, MenuItem, FormControl, InputLabel, IconButton, Slider, Checkbox, FormControlLabel, RadioGroup, Radio, Button, Box, Rating } from '@mui/material';
 import { Delete as DeleteIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
 
 interface FormComponentProps {
+    id: number; // 追加: id プロパティ
+    data: Question; // 追加: data プロパティ
     onDelete: () => void; // 親から渡される削除関数
+    onUpdate: (id: number, updatedData: Question) => void; // 追加: onUpdate プロパティ
 }
 
-const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
-    const quest = { question: "質問内容", };
-    const [questionType, setQuestionType] = useState('');
-    const [questionText, setQuestionText] = useState('');
+const FormComponent: React.FC<FormComponentProps> = ({ id, data, onDelete, onUpdate }) => {
+    const [questionType, setQuestionType] = useState(data.type);
+    const [questionText, setQuestionText] = useState(data.title);
     const [sliderValue, setSliderValue] = useState(50);
     const [checkboxValue, setCheckboxValue] = useState(false);
     const [radioValue, setRadioValue] = useState('');
     const [starValue, setStarValue] = useState(0);
     const [nButtonValue, setNButtonValue] = useState('');
     const [optionCount, setOptionCount] = useState(1);
+    const [options, setOptions] = useState<string[]>([]);
+
+    useEffect(() => {
+        // Update options based on question type
+        if (questionType === 'RADIO' || questionType === 'CHECKBOX') {
+            setOptions(Array.from({ length: optionCount }, (_, i) => options[i] || ''));
+        } else if (questionType === 'SLIDER') {
+            const parsedContent = JSON.parse(data.content);
+            const max = parsedContent[0] !== undefined ? parsedContent[0].toString() : '100';
+            const min = parsedContent[1] !== undefined ? parsedContent[1].toString() : '0';
+            const step = parsedContent[2] !== undefined ? parsedContent[2].toString() : '1';
+            setOptions([max, min, step]);
+        } else if (questionType === 'STAR_RATING') {
+            const max = JSON.parse(data.content)[0] !== undefined ? JSON.parse(data.content)[0].toString() : '5';
+            setOptions([max]);
+            setOptionCount(parseInt(max));
+        } else if (questionType === 'TWO_CHOICE' || questionType === 'TEXTBOX') {
+            setOptions(['']);
+        } else {
+            setOptions([]);
+        }
+    }, [questionType, optionCount, data.content]);
 
     const handleDelete = () => {
         onDelete(); // 親から渡された削除関数を呼び出す
@@ -33,8 +65,10 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
         setRadioValue(event.target.value);
     };
 
-    const handleStarChange = (newValue: number) => {
+    const handleStarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = parseInt(event.target.value);
         setStarValue(newValue);
+        handleOptionChange(0, event.target.value);
     };
 
     const handleNButtonChange = (value: string) => {
@@ -43,7 +77,18 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
 
     const handleOptionCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const count = Math.min(10, Math.max(1, parseInt(event.target.value, 10)));
-        setOptionCount(count);
+        setOptionCount(count); // Ensure count is a number
+    };
+
+    const handleOptionChange = (index: number, value: string) => {
+        const newOptions = [...options];
+        newOptions[index] = value;
+        setOptions(newOptions);
+        handleUpdate(newOptions);
+    };
+
+    const handleUpdate = (updatedOptions = options) => {
+        onUpdate(id, { id, title: questionText, type: questionType, content: JSON.stringify(updatedOptions) }); // 更新関数を呼び出す
     };
 
     return (
@@ -51,9 +96,10 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
             <CardContent>
                 <Box display="flex" justifyContent="space-between" marginBottom={2}>
                     <TextField
-                        label={quest.question}
+                        label="質問内容"
                         value={questionText}
                         onChange={(e) => setQuestionText(e.target.value)}
+                        onBlur={() => handleUpdate()}
                         fullWidth
                     />
                     <IconButton onClick={handleDelete}>
@@ -66,18 +112,19 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                     <Select
                         value={questionType}
                         onChange={(e) => setQuestionType(e.target.value)}
+                        onBlur={() => handleUpdate()}
                         label="質問を選択"
                     >
-                        <MenuItem value="radio">ラジオボタン</MenuItem>
-                        <MenuItem value="checkbox">チェックボックス</MenuItem>
-                        <MenuItem value="slider">スライダー</MenuItem>
-                        <MenuItem value="star">スター</MenuItem>
-                        <MenuItem value="nbutton">二択ボタン</MenuItem>
-                        <MenuItem value="textbox">テキストボックス</MenuItem>
+                        <MenuItem value="RADIO">ラジオボタン</MenuItem>
+                        <MenuItem value="CHECKBOX">チェックボックス</MenuItem>
+                        <MenuItem value="SLIDER">スライダー</MenuItem>
+                        <MenuItem value="STAR_RATING">スター</MenuItem>
+                        <MenuItem value="TWO_CHOICE">二択ボタン</MenuItem>
+                        <MenuItem value="TEXTBOX">テキストボックス</MenuItem>
                     </Select>
                 </FormControl>
 
-                {(questionType === 'radio' || questionType === 'checkbox' || questionType === 'star') && (
+                {(questionType === 'RADIO' || questionType === 'CHECKBOX') && (
                     <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
                         <TextField
                             type="number"
@@ -90,22 +137,38 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                     </Box>
                 )}
 
-                {(questionType === 'slider') && (
+                {(questionType === 'SLIDER') && (
                     <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
                         <TextField
                             type="number"
-                            label="スライダーの目盛数"
-                            value={optionCount}
-                            onChange={handleOptionCountChange}
+                            label="最大値"
+                            value={options[0] || ''}
+                            onChange={(e) => handleOptionChange(0, e.target.value)}
+                            onBlur={() => handleUpdate()}
                             fullWidth
-                            inputProps={{ min: 1, max: 100 }}
+                        />
+                        <TextField
+                            type="number"
+                            label="最小値"
+                            value={options[1] || ''}
+                            onChange={(e) => handleOptionChange(1, e.target.value)}
+                            onBlur={() => handleUpdate()}
+                            fullWidth
+                        />
+                        <TextField
+                            type="number"
+                            label="ステップ"
+                            value={options[2] || ''}
+                            onChange={(e) => handleOptionChange(2, e.target.value)}
+                            onBlur={() => handleUpdate()}
+                            fullWidth
                         />
                     </Box>
                 )}
 
-                {questionType === 'radio' && (
+                {questionType === 'RADIO' && (
                     <RadioGroup value={radioValue} onChange={handleRadioChange}>
-                        {Array.from({ length: optionCount }).map((_, index) => (
+                        {Array.from({ length: Number(optionCount) }).map((_, index) => (
                             <FormControlLabel
                                 key={index}
                                 value={`option${index + 1}`}
@@ -114,6 +177,9 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                                     <TextField
                                         variant="outlined"
                                         label={`オプション ${index + 1}`}
+                                        value={options[index] || ''}
+                                        onChange={(e) => handleOptionChange(index, e.target.value)}
+                                        onBlur={() => handleUpdate()}
                                     />
                                 }
                             />
@@ -121,29 +187,32 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                     </RadioGroup>
                 )}
 
-                {questionType === 'checkbox' && (
+                {questionType === 'CHECKBOX' && (
                     <Box>
-                        {Array.from({ length: optionCount }).map((_, index) => (
+                        {Array.from({ length: Number(optionCount) }).map((_, index) => (
                             <FormControlLabel
                                 key={index}
                                 control={<Checkbox disabled checked={checkboxValue} onChange={handleCheckboxChange} />}
-                                label={<TextField variant="outlined" label={`オプション ${index + 1}`} />}
+                                label={<TextField variant="outlined" label={`オプション ${index + 1}`} value={options[index] || ''} onChange={(e) => handleOptionChange(index, e.target.value)} onBlur={() => handleUpdate()} />}
                             />
                         ))}
                     </Box>
                 )}
 
-                {questionType === 'slider' && (
+                {questionType === 'SLIDER' && (
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                         <TextField
                             label="Min"
                             variant="outlined"
+                            value={options[1] || ''}
+                            disabled
                         />
                         <Slider
                             value={sliderValue}
                             onChange={handleSliderChange}
-                            min={0}
-                            max={optionCount}
+                            min={parseInt(options[1]) || 0}
+                            max={parseInt(options[0]) || 100}
+                            step={parseInt(options[2]) || 1}
                             valueLabelDisplay="auto"
                             disabled
                             sx={{ flexGrow: 1, marginLeft: 2, marginRight: 2 }}
@@ -151,74 +220,61 @@ const FormComponent: React.FC<FormComponentProps> = ({ onDelete }) => {
                         <TextField
                             label="Max"
                             variant="outlined"
-
+                            value={options[0] || ''}
+                            disabled
                         />
                     </Box>
                 )}
 
-                {questionType === 'star' && (
+                {questionType === 'STAR_RATING' && (
                     <Box display="flex" justifyContent="center" marginBottom={2}>
-                        {Array.from({ length: optionCount }).map((_, index) => (
-                            <Rating
-                                value={starValue}
-                                onChange={(event, newValue) => handleStarChange(newValue as number)}
-                                max={optionCount}
-                                key={index}
-                                size="large" // スターの大きさを大きく設定
-                                disabled
-                            />
-                        ))}
-
+                        <TextField
+                            type="number"
+                            label="最大値"
+                            value={options[0] || ''}
+                            onChange={(e) => handleOptionChange(0, e.target.value)}
+                            onBlur={() => handleUpdate()}
+                            fullWidth
+                        />
                     </Box>
                 )}
 
-                {questionType === 'nbutton' && (
-                    <Box display="flex" justifyContent="center" gap={3} marginBottom={2}>
-                        <Button
-                            onClick={() => handleNButtonChange('like')}
-                            variant="contained"
-                            color="primary"
+                {questionType === 'STAR_RATING' && (
+                    <Box display="flex" justifyContent="center" marginBottom={2}>
+                        <Rating
+                            value={starValue}
+                            onChange={(event, newValue) => handleStarChange({ target: { value: newValue?.toString() || '0' } } as React.ChangeEvent<HTMLInputElement>)}
+                            max={parseInt(options[0]) || 5}
+                            size="large" // スターの大きさを大きく設定
                             disabled
-                            sx={{
-                                minWidth: 100,
-                                height: 100,
-                                borderRadius: 4,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                backgroundColor: '#4caf50',
-                            }}
-                        >
-                            <ThumbUpIcon />
-                        </Button>
-                        <Button
-                            onClick={() => handleNButtonChange('dislike')}
-                            variant="contained"
-                            color="secondary"
-                            disabled
-                            sx={{
-                                minWidth: 100,
-                                height: 100,
-                                borderRadius: 4,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                backgroundColor: '#f44336',
-                            }}
-                        >
-                            <ThumbDownIcon />
-                        </Button>
+                        />
                     </Box>
                 )}
 
-                {questionType === 'textbox' && (
-                    <TextField
-                        label="ここに記入してください"
-                        fullWidth
-                        multiline
-                        rows={4}
-                        disabled
-                    />
+                {questionType === 'TWO_CHOICE' && (
+                    <Box>
+                        <TextField
+                            label="二択ボタン"
+                            variant="outlined"
+                            value={options[0] || ''}
+                            onChange={(e) => handleOptionChange(0, e.target.value)}
+                            onBlur={() => handleUpdate()}
+                            fullWidth
+                        />
+                    </Box>
+                )}
+
+                {questionType === 'TEXTBOX' && (
+                    <Box>
+                        <TextField
+                            label="テキストボックス"
+                            variant="outlined"
+                            value={options[0] || ''}
+                            onChange={(e) => handleOptionChange(0, e.target.value)}
+                            onBlur={() => handleUpdate()}
+                            fullWidth
+                        />
+                    </Box>
                 )}
             </CardContent>
         </Paper>

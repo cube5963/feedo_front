@@ -1,37 +1,57 @@
 "use client";
 import React, { useState } from "react";
 import { Box, Drawer, List, ListItem, ListItemText, Paper, TextField, Toolbar, ListItemButton } from "@mui/material";
-import { Save, Share, Visibility, AddCircle } from "@mui/icons-material"; // アイコンのインポート
-import Form from "../../_components/form"; // Formコンポーネント
+import { Save, Share, Visibility, AddCircle } from "@mui/icons-material";
+import FormComponent from "../../_components/form";
+
+interface Question {
+    id: number;
+    title: string;
+    type: string;
+    content: string;
+}
+
 const FormBuilderPage = () => {
-    const info = { title: "フォームタイトル", description: "フォームの説明" };
     const [formState, setFormState] = useState({ title: "", description: "" });
-    interface Form {
-        id: number;
-    }
-
-    const [forms, setForms] = useState<Form[]>([]); // 追加されたフォームを保持する状態
-
-    const drawerItems = [
-        {
-            text: "保存", icon: <Save />, action: () => console.log("保存ボタンが押されました")
-        },
-        { text: "共有", icon: <Share />, action: () => alert("押されたときにモーダルにしてリンクを表示させる") },
-        { text: "プレビュー", icon: <Visibility />, action: () => alert("押されたときにViewページに飛ばす") },
-        { text: "新規の質問追加", icon: <AddCircle />, action: () => addNewForm() }, // 新しい質問追加のアクション
-    ];
+    const [questions, setQuestions] = useState<Question[]>([]);
 
     const addNewForm = () => {
-        setForms((prevForms) => [...prevForms, { id: Date.now() }]); // 新しいフォームを追加
+        setQuestions([
+            ...questions,
+            {
+                id: Date.now(),
+                title: "",
+                type: "",
+                content: "[]"
+            }
+        ]);
+    };
+
+    const updateForm = (id: number, updatedData: Question) => {
+        setQuestions(questions.map((q) => (q.id === id ? updatedData : q)));
     };
 
     const deleteForm = (id: number) => {
-        setForms((prevForms) => prevForms.filter((form) => form.id !== id)); // 特定のフォームを削除
+        setQuestions(questions.filter((q) => q.id !== id));
+    };
+
+    const saveForm = () => {
+        const formData = {
+            title: formState.title,
+            description: formState.description,
+            userId: "testuser",
+            questions: questions.map((q) => ({
+                title: q.title,
+                type: q.type,
+                content: q.content
+            }))
+        };
+        console.log(JSON.stringify(formData, null, 2));
     };
 
     return (
         <Box sx={{ display: "flex", height: "100vh" }}>
-            {/* Drawer */}
+            {/* サイドメニュー */}
             <Drawer
                 variant="permanent"
                 sx={{
@@ -40,56 +60,73 @@ const FormBuilderPage = () => {
                     [`& .MuiDrawer-paper`]: {
                         width: 240,
                         boxSizing: "border-box",
-                        marginTop: 10, // paper部分の位置を調整
+                        marginTop: 10,
                     },
                 }}
             >
                 <Toolbar />
                 <List>
-                    {drawerItems.map((item, index) => (
-                        <ListItem key={index} onClick={item.action}>
-                            <ListItemButton sx={{ m: 0, p: 2 }}>
-                                {item.icon}
-                                <ListItemText primary={item.text} sx={{ ml: 2 }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                    <ListItem onClick={saveForm}>
+                        <ListItemButton sx={{ p: 2 }}>
+                            <Save />
+                            <ListItemText primary="保存" sx={{ ml: 2 }} />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem onClick={() => alert("共有")}>
+                        <ListItemButton sx={{ p: 2 }}>
+                            <Share />
+                            <ListItemText primary="共有" sx={{ ml: 2 }} />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem onClick={() => alert("プレビュー")}>
+                        <ListItemButton sx={{ p: 2 }}>
+                            <Visibility />
+                            <ListItemText primary="プレビュー" sx={{ ml: 2 }} />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem onClick={addNewForm}>
+                        <ListItemButton sx={{ p: 2 }}>
+                            <AddCircle />
+                            <ListItemText primary="質問追加" sx={{ ml: 2 }} />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
             </Drawer>
 
-            {/* Main Content */}
-            <Box sx={{ flexGrow: 1, ml: 0 }}>
-                <Box sx={{ p: 3 }}>
-                    <div>
-                        <Paper elevation={3} sx={{ p: 3 }}>
-                            <TextField
-                                fullWidth
-                                label={info.title}
-                                variant="outlined"
-                                margin="normal"
-                                value={formState.title}
-                                onChange={(e) => setFormState({ ...formState, title: e.target.value })}
-                            />
-                            <TextField
-                                fullWidth
-                                label={info.description}
-                                variant="outlined"
-                                margin="normal"
-                                multiline
-                                rows={4}
-                                value={formState.description}
-                                onChange={(e) => setFormState({ ...formState, description: e.target.value })}
-                            />
-                        </Paper>
-                        {/* 動的に追加されたフォームを表示 */}
-                        {forms.map((form, index) => (
-                            <div key={index}><Form key={form.id} onDelete={() => deleteForm(form.id)} /></div>
-                        ))}
-                    </div>
-                </Box>
-            </Box>
-        </Box >
+            {/* メイン画面 */}
+            <Box sx={{ flexGrow: 1, ml: 0, p: 3 }}>
+                <Paper elevation={3} sx={{ p: 3 }}>
+                    <TextField
+                        fullWidth
+                        label="フォームタイトル"
+                        variant="outlined"
+                        margin="normal"
+                        value={formState.title}
+                        onChange={(e) => setFormState({ ...formState, title: e.target.value })}
+                    />
+                    <TextField
+                        fullWidth
+                        label="フォームの説明"
+                        variant="outlined"
+                        margin="normal"
+                        multiline
+                        rows={4}
+                        value={formState.description}
+                        onChange={(e) => setFormState({ ...formState, description: e.target.value })}
+                    />
+                </Paper>
 
+                {questions.map((form, index) => (
+                    <FormComponent
+                        key={`${form.id}-${index}`}  // 修正：form.id を使用
+                        id={form.id}
+                        data={form}
+                        onDelete={() => deleteForm(form.id)}
+                        onUpdate={updateForm}
+                    />
+                ))}
+            </Box>
+        </Box>
     );
 };
 
