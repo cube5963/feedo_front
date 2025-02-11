@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Box, Drawer, List, ListItem, ListItemText, Paper, TextField, Toolbar, ListItemButton } from "@mui/material";
-import { Save, Share, Visibility, AddCircle } from "@mui/icons-material";
+import { Save, AddCircle, ArrowBack } from "@mui/icons-material";
 import FormComponent from "../../_components/form";
+import { createSurvey } from "../../lib/api/createSurvey";
 
 interface Question {
     id: number;
@@ -35,18 +36,27 @@ const FormBuilderPage = () => {
         setQuestions(questions.filter((q) => q.id !== id));
     };
 
-    const saveForm = () => {
+    const saveForm = async () => {
         const formData = {
-            title: formState.title,
-            description: formState.description,
-            userId: "testuser",
-            questions: questions.map((q) => ({
-                title: q.title,
-                type: q.type,
-                content: q.content
-            }))
+            createsurveyinput: {
+                title: formState.title,
+                description: formState.description,
+                userId: "testuser",
+                questions: questions.map((q) => ({
+                    title: q.title,
+                    type: q.type,
+                    content: q.content
+                }))
+            }
         };
-        console.log(JSON.stringify(formData, null, 2));
+        try {
+            const response = await createSurvey(formData);
+            console.log(response.createSurvey);
+            alert(`Survey created successfully! View it here: /answer?id=${response.createSurvey}`);
+            window.open(`/answer?id=${response.createSurvey}`, '_blank');
+        } catch (error) {
+            console.error("Error saving form:", error);
+        }
     };
 
     return (
@@ -66,22 +76,16 @@ const FormBuilderPage = () => {
             >
                 <Toolbar />
                 <List>
+                    <ListItem onClick={() => window.location.href = "/management"}>
+                        <ListItemButton sx={{ p: 2 }}>
+                            <ArrowBack />
+                            <ListItemText primary="戻る" sx={{ ml: 2 }} />
+                        </ListItemButton>
+                    </ListItem>
                     <ListItem onClick={saveForm}>
                         <ListItemButton sx={{ p: 2 }}>
                             <Save />
                             <ListItemText primary="保存" sx={{ ml: 2 }} />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem onClick={() => alert("共有")}>
-                        <ListItemButton sx={{ p: 2 }}>
-                            <Share />
-                            <ListItemText primary="共有" sx={{ ml: 2 }} />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem onClick={() => alert("プレビュー")}>
-                        <ListItemButton sx={{ p: 2 }}>
-                            <Visibility />
-                            <ListItemText primary="プレビュー" sx={{ ml: 2 }} />
                         </ListItemButton>
                     </ListItem>
                     <ListItem onClick={addNewForm}>

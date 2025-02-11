@@ -1,4 +1,3 @@
-// Update FormText component to collect entered text and pass it back to the parent component
 import React, { useState } from 'react';
 import { Paper, CardContent, Typography, TextField, Box } from '@mui/material';
 

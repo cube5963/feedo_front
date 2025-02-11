@@ -1,5 +1,5 @@
 "use client";
-// Update FormCheck component to collect selected options and pass them back to the parent component
+
 import React, { useState, useEffect } from 'react';
 import { Paper, CardContent, Typography, FormControl, FormControlLabel, Checkbox, Box } from '@mui/material';
 

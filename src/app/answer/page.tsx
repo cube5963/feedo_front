@@ -1,4 +1,3 @@
-// Update Home component to pass onAnswerChange callback to each form component and collect answers
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -11,6 +10,7 @@ import FormSlider from '../_components/form/slider';
 import FormStar from '../_components/form/star';
 import FormText from '../_components/form/text';
 import FormTwoChoice from '../_components/form/two_choice';
+import { answerSurvey } from "../lib/api/answerSurvey";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -59,14 +59,15 @@ export default function Home() {
   };
   
 
-  const handleSubmit = () => {
-    console.log({
-      surveyId: id,
-      answers: answers.map((a) => ({
-        questionId: a.questionId,
-        answer: a.answer,
-      })),
+  const handleSubmit = async () => {
+    const filteredAnswers = answers.filter((a) => a.answer !== "[]");
+    filteredAnswers.forEach((a) => {
+      a.answer = a.answer.replace(/\[(\d+)\]/g, '["$1"]');
     });
+
+    await answerSurvey(Number(id), filteredAnswers);
+    alert("ご回答いただきありがとうございます！");
+    window.location.reload();
   };
 
   if (loading) {

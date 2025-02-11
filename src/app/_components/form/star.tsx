@@ -1,6 +1,5 @@
 "use client";
 
-// Update FormStar component to collect selected value and pass it back to the parent component
 import React, { useState } from 'react';
 import { Paper, CardContent, Typography, Rating, Box } from '@mui/material';
 

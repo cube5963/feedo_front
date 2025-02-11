@@ -1,5 +1,5 @@
 "use client";
-// Update FormTwoChoice component to collect selected option and pass it back to the parent component
+
 import React, { useState } from 'react';
 import { Paper, CardContent, Typography, Box, Button } from '@mui/material';
 import { ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
