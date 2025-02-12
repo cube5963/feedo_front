@@ -1,21 +1,19 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { getSurvey } from "../lib/api/getSurvey";
 import { Container, Paper, Box, Typography } from "@mui/material";
 import FormCheck from '../_components/form/check';
-import FormRadio from '../_components/form/radio';
-import FormSlider from '../_components/form/slider';
-import FormStar from '../_components/form/star';
-import FormText from '../_components/form/text';
-import FormTwoChoice from '../_components/form/two_choice';
+import FormRadio from '..//_components/form/radio';
+import FormSlider from '..//_components/form/slider';
+import FormStar from '..//_components/form/star';
+import FormText from '..//_components/form/text';
+import FormTwoChoice from '..//_components/form/two_choice';
 import { answerSurvey } from "../lib/api/answerSurvey";
 import Button from '@mui/material/Button';
-export default function Home() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
 
+function SurveyContent({ id }: { id: string | null }) {
   interface SurveyData {
     title: string;
     description: string;
@@ -163,4 +161,18 @@ export default function Home() {
       </Box>
     </Container>
   );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SurveyContentWrapper />
+    </Suspense>
+  );
+}
+
+function SurveyContentWrapper() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  return <SurveyContent id={id} />;
 }

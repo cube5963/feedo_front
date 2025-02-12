@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { getAnswer } from "../../lib/api/getAnswer";
 import BasicPie from "../../_components/piechart";
 
@@ -23,9 +23,7 @@ interface SurveyData {
     questions: Question[];
 }
 
-export default function Home() {
-    const searchParams = useSearchParams();
-    const id = searchParams.get("id");
+function SurveyContent({ id }: { id: string }) {
     const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
 
     useEffect(() => {
@@ -67,4 +65,21 @@ export default function Home() {
             })}
         </div>
     );
+}
+
+export default function Home() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SurveyContentWrapper />
+        </Suspense>
+    );
+}
+
+function SurveyContentWrapper() {
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id");
+
+    if (!id) return <div>Loading...</div>;
+
+    return <SurveyContent id={id} />;
 }
