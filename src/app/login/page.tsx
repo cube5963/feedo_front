@@ -17,7 +17,7 @@ import { login } from "../lib/api/login";
 
 const Login = () => {
     const [email, setEmail] = React.useState(""); // emailの状態を管理
-    const [paFssword, setPassword] = React.useState(""); // passwordの状態を管理
+    const [password, setPassword] = React.useState(""); // passwordの状態を管理
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);

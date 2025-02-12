@@ -17,13 +17,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 const SignUp = () => {
-    const handleSignUp = (): void => {
-        /*　
-        ここにボタンを押したときの処理を書く。
-        記入欄がすべて埋まってないならconsole.logでエラーを出す。
-        すでにEmail, Passwordが登録されている場合は、既に登録されています。をだす。
-        */
-    }
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
